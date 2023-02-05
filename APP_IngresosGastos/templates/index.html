@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block pageSection %}
+
+    <h1>Lista de movimientos</h1>
+    <table role="grid">
+
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for movement in dataBase %}
+            <tr>
+                <td>{{ movement.Date }}</td>
+                <td>{{ movement.Description }}</td>
+                <td>{{ movement.Value }} €</td>
+                <td>
+                    <a href="/edit/{{ movement.id }}">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </a>
+                    <a href="/delete/{{ movement.id }}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}
