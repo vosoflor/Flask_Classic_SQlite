@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, flash
 from APP_IngresosGastos import app
 from APP_IngresosGastos.forms import MovementsForm
 from APP_IngresosGastos.models import delete_by, edit_by, insert, select_all, select_by
@@ -28,6 +28,7 @@ def create():
     else:
         if form.validate_on_submit():
             insert([form.Date.data, form.Description.data, form.Value.data])
+            flash("Movimiento registrado correctamente")
             return redirect(url_for("index")) # Otra forma de dirigirse a otra URL llamando la función
         else:
             return render_template("new.html", pageTitle = "Nuevo registro", requestForm = form)
@@ -39,6 +40,7 @@ def delete(id):
         return render_template("delete.html", pageTitle = "Eliminar registro", data = record)
     else:
         delete_by(id)
+        flash("Movimiento eliminado correctamente")
         return redirect("/")
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])

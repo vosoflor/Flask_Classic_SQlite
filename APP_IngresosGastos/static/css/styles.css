@@ -17,3 +17,9 @@ ul.errors{
     font-weight: bold;
     font-size: 0.8em;
 }
+
+ul.flashes{
+    color: rgb(39, 163, 93);
+    font-weight: bold;
+    font-size: 0.8em;
+}
