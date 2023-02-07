@@ -4,25 +4,39 @@
 
     <form action="/new" method="post">
 
-        <label for="Date">Fecha:</label>
-        <input type="date" id="Date" name="Date" value="{{ requestForm.Date }}" required>
+        {{ requestForm.csrf_token }}
+        {{ requestForm.Date.label }}
+        {{ requestForm.Date }}
+        {% if requestForm.Date.errors %}
+            <ul class="errors">
+                {% for error in requestForm.Date.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-        <label for="Description">Descripción:</label>
-        <input type="text" id="Description" name="Description" value="{{ requestForm.Description }}"placeholder="En qué te gastaste el dinero">
+        {{ requestForm.Description.label }}
+        {{ requestForm.Description(placeholder="Detalle por qué recibiste dinero o para qué lo utilizaste") }}
+        {% if requestForm.Description.errors %}
+        <ul class="errors">
+            {% for error in requestForm.Description.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
-        <label for="Value">Monto:</label>
-        <input type="number" step="0.01" id="Value" name="Value" value="{{ requestForm.Value }}"placeholder="Cuánto gastaste">
-    
-        <button type="submit">Crear</button>
+        {{ requestForm.Value.label }}
+        {{ requestForm.Value(placeholder="Cuánto recibiste/gastaste") }}
+        {% if requestForm.Value.errors %}
+        <ul class="errors">
+            {% for error in requestForm.Value.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {{ requestForm.button }}
 
     </form>
-
-    <article>
-        <ul>
-            {% for item in msgError %}
-            <li class="miestilo">{{ item }}</li>
-            {% endfor %}                    
-        </ul>
-    </article>
 
 {% endblock %}

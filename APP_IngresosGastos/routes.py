@@ -1,6 +1,7 @@
 from flask import redirect, render_template, request, url_for
 from APP_IngresosGastos import app
-from APP_IngresosGastos.models import delete_by, insert, select_all, select_by
+from APP_IngresosGastos.forms import MovementsForm
+from APP_IngresosGastos.models import delete_by, edit_by, insert, select_all, select_by
 from datetime import datetime, date
 
 def validateForm(requestForm):
@@ -21,15 +22,15 @@ def index():
 
 @app.route("/new", methods=["GET", "POST"])
 def create():
+    form = MovementsForm()
     if request.method == "GET":
-        return render_template("new.html", pageTitle = "Nuevo registro", requestForm = {})
+        return render_template("new.html", pageTitle = "Nuevo registro", requestForm = form)
     else:
-        error = validateForm(request.form)
-        if error:
-            return render_template("new.html", pageTitle = "Nuevo registro", msgError = error, requestForm = request.form)
-        else:
-            insert([request.form["Date"], request.form["Description"], request.form["Value"]])
+        if form.validate_on_submit():
+            insert([form.Date.data, form.Description.data, form.Value.data])
             return redirect(url_for("index")) # Otra forma de dirigirse a otra URL llamando la función
+        else:
+            return render_template("new.html", pageTitle = "Nuevo registro", requestForm = form)
 
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 def delete(id):
@@ -40,3 +41,11 @@ def delete(id):
         delete_by(id)
         return redirect("/")
 
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id):
+    if request.method == "GET":
+        record = select_by(id)
+        return render_template("edit.html", pageTitle = "Modificar registro", data = record)
+    else:
+        edit_by(id)
+        return redirect("/")

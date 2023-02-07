@@ -11,3 +11,9 @@ body{
     grid-template-rows: auto 50 px 1fr auto;
     margin: 0;
 }
+
+ul.errors{
+    color: red;
+    font-weight: bold;
+    font-size: 0.8em;
+}
