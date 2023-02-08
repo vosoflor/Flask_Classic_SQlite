@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block pageSection %}
+
+    <form action="/edit/{{ identifier }}" method="post">
+
+        {{ requestForm.csrf_token }}
+        {{ requestForm.Date.label }}
+        {{ requestForm.Date }}
+        {% if requestForm.Date.errors %}
+            <ul class="errors">
+                {% for error in requestForm.Date.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{ requestForm.Description.label }}
+        {{ requestForm.Description }}
+        {% if requestForm.Description.errors %}
+        <ul class="errors">
+            {% for error in requestForm.Description.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {{ requestForm.Value.label }}
+        {{ requestForm.Value }}
+        {% if requestForm.Value.errors %}
+        <ul class="errors">
+            {% for error in requestForm.Value.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {{ requestForm.button }}
+
+    </form>
+
+{% endblock %}

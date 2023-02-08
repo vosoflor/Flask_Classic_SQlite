@@ -36,5 +36,19 @@ def delete_by(id):
     connection.con.commit()
     connection.con.close()
 
-def edit_by(id):
-    pass
+def edit_by(id, record):
+    connection = ConnectDatabase(f"UPDATE movements SET Date=?, Description=?, Value=? WHERE id={id};", record)
+    connection.con.commit()
+    connection.con.close()
+
+def total_earnings():
+    connection = ConnectDatabase(f"SELECT sum(Value) FROM movements WHERE Value>0")
+    record = connection.res.fetchall()
+    connection.con.close()
+    return record[0][0]
+
+def total_expenses():
+    connection = ConnectDatabase(f"SELECT sum(Value) FROM movements WHERE Value<0")
+    record = connection.res.fetchall()
+    connection.con.close()
+    return record[0][0]
